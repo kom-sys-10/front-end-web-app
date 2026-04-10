@@ -1,0 +1,93 @@
+.shopping-item-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--color-border);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.06),
+        0 2px 10px rgba(0, 0, 0, 0.03);
+    backdrop-filter: blur(12px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.shopping-item-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.shopping-item-image {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.shopping-item-image span {
+    width: 72px;
+    height: 72px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--color-border);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.shopping-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1.25rem;
+}
+
+.shopping-item-content h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.shopping-item-subtitle {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.shopping-item-price {
+    margin: 0.25rem 0 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.shopping-item-button {
+    margin-top: 0.5rem;
+    width: 100%;
+    border: none;
+    border-radius: 999px;
+    padding: 0.9rem 1rem;
+    background: var(--color-accent);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.shopping-item-button:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+}
+
+.shopping-item-button:active {
+    transform: translateY(0);
+}

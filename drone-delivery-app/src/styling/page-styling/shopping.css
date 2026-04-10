@@ -1,0 +1,39 @@
+.shopping-page {
+    min-height: 100vh;
+    padding: 3rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
+    color: var(--color-text-primary);
+}
+
+.shopping-hero {
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}
+
+.shopping-hero h1 {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.shopping-hero p {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+}
+
+.shopping-list {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.shopping-list-item {
+    display: flex;
+}

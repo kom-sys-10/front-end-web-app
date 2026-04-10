@@ -1,0 +1,39 @@
+.login-input-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.login-input-container:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.12);
+    transform: translateY(-1px);
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.login-input {
+    width: 100%;
+    padding: 1rem 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+}
+
+.login-input::placeholder {
+    color: var(--color-text-secondary);
+}
