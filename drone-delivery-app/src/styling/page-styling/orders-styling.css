@@ -1,0 +1,253 @@
+.orders-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+}
+
+/* HERO */
+
+.orders-hero {
+    margin-bottom: 28px;
+}
+
+.orders-hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+    color: var(--color-text-primary);
+}
+
+.orders-hero p {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+/* LAYOUT */
+
+.orders-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+/* MAIN CARD */
+
+.orders-overview-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* SECTION HEADING */
+
+.section-heading {
+    margin-bottom: 24px;
+}
+
+.section-heading h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--color-text-primary);
+}
+
+.section-heading p {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+/* ORDER LIST */
+
+.orders-list {
+    display: grid;
+    gap: 18px;
+}
+
+/* ORDER CARD */
+
+.order-card {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    border-radius: 18px;
+    padding: 22px;
+    text-align: left;
+    cursor: pointer;
+
+    transition: 
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    background: var(--color-bg);
+    border-color: var(--color-text-secondary);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* TOP SECTION */
+
+.order-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.order-card-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.order-card-top h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-text-primary);
+}
+
+/* STATUS BADGE */
+
+.order-status-badge {
+    background: rgba(37, 99, 235, 0.15);
+    color: var(--color-accent);
+    border: 1px solid rgba(37, 99, 235, 0.35);
+
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* GRID INFO */
+
+.order-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.order-card-item {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+}
+
+.order-card-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.order-card-item span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.order-card-item p {
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.5;
+}
+
+/* FOOTER */
+
+.order-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-top: 4px;
+}
+
+.order-card-meta span {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.order-card-meta p {
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+/* LINK */
+
+.order-card-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+/* EMPTY STATE */
+
+.orders-empty-state {
+    text-align: center;
+    padding: 56px 24px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+}
+
+.orders-empty-icon {
+    font-size: 2rem;
+    margin-bottom: 14px;
+    color: var(--color-text-secondary);
+}
+
+.orders-empty-state h3 {
+    margin-bottom: 8px;
+    color: var(--color-text-primary);
+}
+
+.orders-empty-state p {
+    color: var(--color-text-secondary);
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .orders-page {
+        padding: 24px 16px 48px;
+    }
+
+    .orders-overview-card {
+        padding: 20px;
+    }
+
+    .order-card-top,
+    .order-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-card-grid {
+        grid-template-columns: 1fr;
+    }
+}
