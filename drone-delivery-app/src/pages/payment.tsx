@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Product from "../models/products";
 import "../styling/page-styling/payment-style.css";
 import { useCart } from "../models/cart";
@@ -24,16 +24,50 @@ function Payment() {
     const [paymentMethod, setPaymentMethod] = useState("Visa ending in 4421");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [weatherOk, setWeatherOk] = useState<boolean | null>(null);
+    const [droneAvailable, setDroneAvailable] = useState<boolean | null>(null);
+    const [availabilityLoading, setAvailabilityLoading] = useState(true);
+
     const subtotal = products.reduce((sum, product) => sum + product.getPrice(), 0);
     const deliveryFee = 19;
     const total = subtotal + deliveryFee;
-    const estimatedDeliveryDate = new Date(
-        Date.now() + 2 * 24 * 60 * 60 * 1000
-    ).toDateString();
+    const estimatedDeliveryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toDateString();
+
+    const hasFetchedAvailability = useRef(false);
 
     useEffect(() => {
         const name = localStorage.getItem("userName");
         setFullName(name ?? "");
+    }, []);
+
+    useEffect(() => {
+        if (hasFetchedAvailability.current) return;
+        hasFetchedAvailability.current = true;
+
+        const fetchCheckoutAvailability = async () => {
+            try {
+                setAvailabilityLoading(true);
+
+                const response = await fetch(`${API_URL}/drone/checkout-availability`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch checkout availability");
+                }
+
+                const result = await response.json();
+                console.log("Checkout availability:", result);
+
+                setWeatherOk(result.weatherOk);
+                setDroneAvailable(result.droneAvailable);
+            } catch (e) {
+                console.error("Failed to fetch checkout availability:", e);
+                setWeatherOk(false);
+                setDroneAvailable(false);
+            } finally {
+                setAvailabilityLoading(false);
+            }
+        };
+
+        fetchCheckoutAvailability();
     }, []);
 
     useEffect(() => {
@@ -64,9 +98,9 @@ function Payment() {
             undefined,
             uid,
             new Date().toDateString(),
-            "Order placed",
+            "Order confirmed",
             Math.round((Math.random() * (5 - 1) + 1) * 100) / 100,
-            "Autonomus drone delivery",
+            "Autonomous drone delivery",
             fullAddress,
             estimatedDeliveryDate,
             paymentMethod,
@@ -103,6 +137,16 @@ function Payment() {
             return;
         }
 
+        if (weatherOk === false) {
+            alert("Drone delivery is currently unavailable because of weather conditions.");
+            return;
+        }
+
+        if (droneAvailable === false) {
+            alert("No drone is currently available for delivery.");
+            return;
+        }
+
         try {
             setIsSubmitting(true);
 
@@ -112,11 +156,33 @@ function Payment() {
                 clearCart();
                 setProducts([]);
                 alert("Order placed successfully!");
-            } else {
-                const errorText = await response.text();
-                console.error("Failed to create order:", errorText);
-                alert("Failed to place order.");
+                return;
             }
+
+            if (response.status === 409) {
+                const errorData = await response.json();
+                console.error("Order conflict:", errorData);
+
+                if (errorData.weatherOk === false) {
+                    setWeatherOk(false);
+                    setDroneAvailable(false);
+                    alert("Weather is no longer okay for drone delivery.");
+                    return;
+                }
+
+                if (errorData.droneAvailable === false) {
+                    setDroneAvailable(false);
+                    alert("No drone is currently available anymore.");
+                    return;
+                }
+
+                alert(errorData.msg || "Unable to place order.");
+                return;
+            }
+
+            const errorText = await response.text();
+            console.error("Failed to create order:", errorText);
+            alert("Failed to place order.");
         } catch (e) {
             console.error(e);
             alert("Something went wrong while placing the order.");
@@ -124,6 +190,26 @@ function Payment() {
             setIsSubmitting(false);
         }
     }
+
+    const renderShipmentText = () => {
+        if (availabilityLoading) {
+            return <p>Checking drone and weather availability...</p>;
+        }
+
+        if (weatherOk === false) {
+            return <p>Standard delivery, weather is not suitable for drone delivery</p>;
+        }
+
+        if (droneAvailable === false) {
+            return <p>Standard delivery, no drone currently available</p>;
+        }
+
+        if (weatherOk && droneAvailable) {
+            return <p>Autonomous drone delivery is available</p>;
+        }
+
+        return <p>Standard delivery</p>;
+    };
 
     return (
         <div className="create-order-page">
@@ -198,7 +284,7 @@ function Payment() {
                             <h3>
                                 <FaClock /> Delivery preferences
                             </h3>
-                            <p>Select when you want your order to arrive.</p>
+                            <p>Select payment details and review delivery availability.</p>
                         </div>
 
                         <div className="form-grid">
@@ -229,7 +315,12 @@ function Payment() {
                         <button
                             type="submit"
                             className="place-order-button"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                availabilityLoading ||
+                                weatherOk === false ||
+                                droneAvailable === false
+                            }
                         >
                             <FaCheckCircle />
                             {isSubmitting ? "Placing order..." : "Place order"}
@@ -299,7 +390,7 @@ function Payment() {
 
                             <div className="delivery-preview-item">
                                 <span>Shipment type</span>
-                                <p>Autonomous drone delivery</p>
+                                {renderShipmentText()}
                             </div>
                         </div>
                     </section>
