@@ -1,3 +1,4 @@
+// Shopping page: fetches the full product catalog from the API and displays it as a list of cards.
 import ShoppingItem from "../componments/shopping-item";
 import Product from "../models/products";
 import "../styling/page-styling/shopping.css";

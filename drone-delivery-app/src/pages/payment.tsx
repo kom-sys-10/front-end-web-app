@@ -1,3 +1,5 @@
+// Payment / checkout page: checks drone and weather availability, collects delivery details,
+// and submits the order to the API. Blocks submission if no drone or bad weather is reported.
 import { useRef, useState, useEffect } from "react";
 import Product from "../models/products";
 import "../styling/page-styling/payment-style.css";
@@ -26,6 +28,7 @@ function Payment() {
 
     const [weatherOk, setWeatherOk] = useState<boolean | null>(null);
     const [droneAvailable, setDroneAvailable] = useState<boolean | null>(null);
+    const [droneId, setDroneId] = useState<number | null>(null);
     const [availabilityLoading, setAvailabilityLoading] = useState(true);
 
     const subtotal = products.reduce((sum, product) => sum + product.getPrice(), 0);
@@ -33,6 +36,7 @@ function Payment() {
     const total = subtotal + deliveryFee;
     const estimatedDeliveryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toDateString();
 
+    // Ref guard prevents the availability check from running twice in React Strict Mode.
     const hasFetchedAvailability = useRef(false);
 
     useEffect(() => {
@@ -47,17 +51,14 @@ function Payment() {
         const fetchCheckoutAvailability = async () => {
             try {
                 setAvailabilityLoading(true);
-
                 const response = await fetch(`${API_URL}/drone/checkout-availability`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch checkout availability");
                 }
-
                 const result = await response.json();
-                console.log("Checkout availability:", result);
-
                 setWeatherOk(result.weatherOk);
                 setDroneAvailable(result.droneAvailable);
+                setDroneId(result.droneId ?? null);
             } catch (e) {
                 console.error("Failed to fetch checkout availability:", e);
                 setWeatherOk(false);
@@ -104,7 +105,8 @@ function Payment() {
             fullAddress,
             estimatedDeliveryDate,
             paymentMethod,
-            cartItems
+            cartItems,
+            droneId ?? undefined,
         ).toJSON();
 
         const response = await fetch(`${API_URL}/order/`, {
@@ -159,6 +161,7 @@ function Payment() {
                 return;
             }
 
+            // 409 means the server re-checked availability at submission time and it changed.
             if (response.status === 409) {
                 const errorData = await response.json();
                 console.error("Order conflict:", errorData);

@@ -1,3 +1,4 @@
+// Product model: represents a single item available in the store catalog.
 class Product {
     private pid: number;
     private name: string;

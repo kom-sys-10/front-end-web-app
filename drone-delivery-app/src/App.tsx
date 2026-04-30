@@ -1,3 +1,4 @@
+// Root component: defines all client-side routes and wraps them in auth guards.
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import LoginPage from "./pages/login";

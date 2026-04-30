@@ -1,3 +1,4 @@
+// Header component: global navigation bar shown on every page; handles logout by clearing localStorage.
 import "../styling/componments-styling/header-style.css";
 import { Link, useNavigate } from "react-router-dom";
 

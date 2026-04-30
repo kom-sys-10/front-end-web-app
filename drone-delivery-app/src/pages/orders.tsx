@@ -1,3 +1,4 @@
+// Orders page: lists all orders for the logged-in user; clicking an order navigates to its status page.
 import Order from "../models/order";
 import "../styling/page-styling/orders-styling.css";
 import { useNavigate } from "react-router-dom";
@@ -130,6 +131,13 @@ function OrderList({ orders }: OrderListProps) {
                             <span>Shipment type</span>
                             <p>{order.getShipmentType()}</p>
                         </div>
+
+                        {order.getDroneId() !== undefined && (
+                            <div className="order-card-meta">
+                                <span>Drone ID</span>
+                                <p>#{order.getDroneId()}</p>
+                            </div>
+                        )}
 
                         <div className="order-card-link">
                             View details <FaChevronRight />

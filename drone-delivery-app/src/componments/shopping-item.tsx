@@ -1,3 +1,4 @@
+// ShoppingItem component: card displaying a single product with name, price, description, and an "Add to cart" button.
 import '../styling/componments-styling/shooping-item.css';
 import { useCart } from '../models/cart';
 

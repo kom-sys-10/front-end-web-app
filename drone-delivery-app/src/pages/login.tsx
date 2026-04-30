@@ -1,3 +1,4 @@
+// Login page: authenticates the user and stores uid/userName/logedIn in localStorage.
 import LoginInput from "../componments/login-input.tsx";
 import LoginButton from "../componments/login-button.tsx";
 import { faUser } from '@fortawesome/free-solid-svg-icons';

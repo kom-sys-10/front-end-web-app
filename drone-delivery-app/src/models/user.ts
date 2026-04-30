@@ -1,3 +1,4 @@
+// User model: represents the authenticated user. toJson() omits uid because it is server-assigned.
 class User {
     private uid: number;
     private name: string;

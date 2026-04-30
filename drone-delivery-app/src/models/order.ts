@@ -1,3 +1,4 @@
+// Order model: represents a placed order. droneId is optional until a drone is assigned by the backend.
 class Order {
     private oid?: number;
     private uid: number;
@@ -9,6 +10,8 @@ class Order {
     private deliveryDate: string;
     private paymentNumber: string;
     private pids: number[];
+    private droneId?: number;
+    private droneInMaintenance: boolean;
 
     public constructor(
         oid: number | undefined,
@@ -20,7 +23,9 @@ class Order {
         address: string,
         deliveryDate: string,
         paymentNumber: string,
-        pids: number[]
+        pids: number[],
+        droneId?: number,
+        droneInMaintenance: boolean = false
     ) {
         this.oid = oid;
         this.uid = uid;
@@ -32,6 +37,8 @@ class Order {
         this.deliveryDate = deliveryDate;
         this.paymentNumber = paymentNumber;
         this.pids = pids;
+        this.droneId = droneId;
+        this.droneInMaintenance = droneInMaintenance;
     }
 
     public getOid(): number | undefined {
@@ -70,6 +77,15 @@ class Order {
         return this.pids;
     }
 
+    public getDroneId(): number | undefined {
+        return this.droneId;
+    }
+
+    public getDroneInMaintenance(): boolean {
+        return this.droneInMaintenance;
+    }
+
+    // droneInMaintenance is excluded because it is a server-managed field, not sent on creation.
     public toJSON() {
         return {
             uid: this.uid,
@@ -80,7 +96,8 @@ class Order {
             address: this.address,
             deliveryDate: this.deliveryDate,
             paymentNumber: this.paymentNumber,
-            pids: this.pids
+            pids: this.pids,
+            droneId: this.droneId
         };
     }
 
@@ -95,7 +112,9 @@ class Order {
             json.address,
             json.deliveryDate,
             json.paymentNumber,
-            json.pids
+            json.pids,
+            json.droneId,
+            json.droneInMaintenance ?? false 
         );
     }
 }

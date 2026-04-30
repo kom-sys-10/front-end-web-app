@@ -1,3 +1,5 @@
+// Status page: shows the full delivery timeline and order details for a single order (:oid).
+// Displays a maintenance alert banner if the assigned drone is flagged as under maintenance.
 import { useParams } from "react-router-dom";
 import Product from "../models/products";
 import "../styling/page-styling/status-styling.css";
@@ -71,7 +73,6 @@ function Status() {
 
                 setProducts(tempProducts);
             } catch (e) {
-                console.log("her error")
                 console.error(e);
             }
         };
@@ -106,8 +107,10 @@ function Status() {
     const paymentMethod = order?.getPaymentNumber() ?? "-";
     const packageWeight = order?.getPackageWeight() ?? 0;
     const shipmentType = order?.getShipmentType() ?? "-";
+    const droneId = order?.getDroneId();
     const currentStatus = order?.getStatus() ?? "Order placed";
     const currentTimelineKey = getTimelineKeyFromStatus(currentStatus);
+    const droneInMaintenance = order?.getDroneInMaintenance() ?? false;
 
     const timelineSteps: TimelineStep[] = [
         {
@@ -182,6 +185,16 @@ function Status() {
                 <h1>Order overview</h1>
                 <p>Track your delivery and review everything included in your order.</p>
             </div>
+
+            {droneInMaintenance && (
+                <div className="drone-alert-banner">
+                    <strong>⚠️ Delivery disruption</strong>
+                    <p>
+                        Your assigned drone has encountered an issue and is under maintenance.
+                        Your order may be delayed. We apologise for the inconvenience.
+                    </p>
+                </div>
+            )}
 
             <div className="status-layout">
                 <section className="status-summary-card">
@@ -306,6 +319,13 @@ function Status() {
                             <span>Package weight</span>
                             <p>{packageWeight} kg</p>
                         </div>
+
+                        {droneId !== undefined && (
+                            <div className="delivery-note-box">
+                                <span>Drone ID</span>
+                                <p>#{droneId}</p>
+                            </div>
+                        )}
                     </div>
                 </section>
             </div>

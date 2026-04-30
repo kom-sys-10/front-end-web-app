@@ -1,3 +1,5 @@
+// Cart context: holds the list of product IDs currently in the cart, persisted to localStorage.
+// Wrap the app in <CartProvider> to make useCart() available to all child components.
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export type CartContextType = {

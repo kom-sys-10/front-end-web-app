@@ -663,3 +663,18 @@
         margin-left: 0;
     }
 }
+
+.drone-alert-banner {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    color: #856404;
+}
+
+.drone-alert-banner strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 1rem;
+}

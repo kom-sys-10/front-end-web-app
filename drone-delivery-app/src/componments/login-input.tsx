@@ -1,3 +1,4 @@
+// LoginInput component: styled text/password input with a FontAwesome icon, used on the login form.
 import '../styling/componments-styling/login-input-style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
